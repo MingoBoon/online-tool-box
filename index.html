@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Toolbox | Handy tools, one place</title>
+	<style>
+		:root {
+			--ink: #17212b;
+			--muted: #687783;
+			--paper: #f7f5ef;
+			--panel: #fffdf8;
+			--line: #dce1dc;
+			--teal: #126e68;
+			--teal-dark: #0d514d;
+			--coral: #e87355;
+			--yellow: #f4c95d;
+			--shadow: 0 24px 60px rgba(23, 33, 43, 0.12);
+		}
+
+		* { box-sizing: border-box; }
+
+		body {
+			margin: 0;
+			color: var(--ink);
+			background:
+				linear-gradient(135deg, rgba(18, 110, 104, 0.08), transparent 34%),
+				radial-gradient(circle at 88% 12%, rgba(244, 201, 93, 0.24), transparent 24%),
+				var(--paper);
+			font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+		}
+
+		.page {
+			width: min(1180px, calc(100% - 40px));
+			margin: 0 auto;
+			padding: 28px 0 56px;
+		}
+
+		.topbar, .intro, .tool-card, .workspace {
+			background: rgba(255, 253, 248, 0.86);
+			border: 1px solid rgba(220, 225, 220, 0.9);
+			box-shadow: var(--shadow);
+		}
+
+		.topbar {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 20px;
+			padding: 14px 18px;
+			border-radius: 18px;
+		}
+
+		.brand {
+			display: flex;
+			align-items: center;
+			gap: 11px;
+			color: var(--ink);
+			font-weight: 800;
+			letter-spacing: 0.02em;
+		}
+
+		.brand-mark {
+			display: grid;
+			width: 34px;
+			height: 34px;
+			place-items: center;
+			border-radius: 10px;
+			color: white;
+			background: var(--teal);
+			font-family: Georgia, serif;
+			font-size: 1.35rem;
+		}
+
+		.status {
+			color: var(--muted);
+			font-size: 0.82rem;
+		}
+
+		.status::before {
+			display: inline-block;
+			width: 8px;
+			height: 8px;
+			margin-right: 7px;
+			border-radius: 50%;
+			background: var(--coral);
+			content: "";
+		}
+
+		.intro {
+			position: relative;
+			overflow: hidden;
+			margin-top: 24px;
+			padding: clamp(34px, 7vw, 82px) clamp(24px, 7vw, 88px);
+			border-radius: 28px;
+		}
+
+		.intro::after {
+			position: absolute;
+			right: 8%;
+			bottom: -65px;
+			width: 210px;
+			height: 210px;
+			border: 28px solid rgba(232, 115, 85, 0.18);
+			border-radius: 50%;
+			content: "";
+		}
+
+		.eyebrow {
+			margin: 0 0 12px;
+			color: var(--teal);
+			font-size: 0.78rem;
+			font-weight: 800;
+			letter-spacing: 0.16em;
+			text-transform: uppercase;
+		}
+
+		h1, h2, p { margin-top: 0; }
+
+		h1 {
+			max-width: 680px;
+			margin-bottom: 18px;
+			font-family: Georgia, serif;
+			font-size: clamp(2.8rem, 7vw, 6rem);
+			font-weight: 400;
+			letter-spacing: -0.03em;
+			line-height: 0.95;
+		}
+
+		.intro-copy {
+			max-width: 535px;
+			margin-bottom: 0;
+			color: var(--muted);
+			font-size: 1.06rem;
+			line-height: 1.65;
+		}
+
+		.tabs {
+			display: flex;
+			gap: 8px;
+			margin: 28px 0 18px;
+			overflow-x: auto;
+			padding-bottom: 3px;
+		}
+
+		.tab {
+			flex: 0 0 auto;
+			border: 1px solid var(--line);
+			border-radius: 999px;
+			padding: 11px 17px;
+			color: var(--muted);
+			background: rgba(255, 253, 248, 0.7);
+			cursor: pointer;
+			font: inherit;
+			font-size: 0.9rem;
+			transition: 160ms ease;
+		}
+
+		.tab:hover, .tab:focus-visible { border-color: var(--teal); color: var(--teal-dark); }
+
+		.tab[aria-selected="true"] {
+			border-color: var(--teal);
+			color: white;
+			background: var(--teal);
+		}
+
+		.panel[hidden] { display: none; }
+
+		.tool-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 16px;
+		}
+
+		.tool-card {
+			min-height: 220px;
+			padding: 25px;
+			border-radius: 18px;
+			box-shadow: 0 12px 30px rgba(23, 33, 43, 0.07);
+		}
+
+		.tool-icon {
+			display: grid;
+			width: 45px;
+			height: 45px;
+			margin-bottom: 30px;
+			place-items: center;
+			border-radius: 13px;
+			color: var(--ink);
+			background: var(--yellow);
+			font-family: Georgia, serif;
+			font-size: 1.25rem;
+		}
+
+		.tool-card:nth-child(2) .tool-icon { background: #b9ded7; }
+		.tool-card:nth-child(3) .tool-icon { background: #f3c1b3; }
+
+		.tool-card h2 { margin-bottom: 8px; font-family: Georgia, serif; font-size: 1.45rem; font-weight: 400; }
+		.tool-card p { margin-bottom: 22px; color: var(--muted); line-height: 1.5; }
+
+		.open-tool {
+			border: 0;
+			padding: 0;
+			color: var(--teal-dark);
+			background: transparent;
+			cursor: pointer;
+			font: inherit;
+			font-weight: 800;
+		}
+
+		.open-tool::after { margin-left: 6px; content: "->"; }
+
+		.workspace {
+			min-height: 650px;
+			overflow: hidden;
+			border-radius: 22px;
+		}
+
+		.workspace-header { padding: 23px 27px; border-bottom: 1px solid var(--line); }
+		.workspace-header h2 { margin-bottom: 5px; font-family: Georgia, serif; font-size: 1.6rem; font-weight: 400; }
+		.workspace-header p { margin-bottom: 0; color: var(--muted); }
+
+		.workspace iframe { display: block; width: 100%; height: 570px; border: 0; background: #f4f7f6; }
+
+		footer { padding-top: 25px; color: var(--muted); font-size: 0.82rem; text-align: center; }
+
+		@media (max-width: 760px) {
+			.page { width: min(100% - 24px, 560px); padding-top: 12px; }
+			.topbar { border-radius: 14px; }
+			.status { display: none; }
+			.intro { margin-top: 12px; border-radius: 20px; }
+			h1 { font-size: clamp(3rem, 16vw, 5rem); }
+			.tool-grid { grid-template-columns: 1fr; }
+			.tool-card { min-height: auto; }
+			.workspace iframe { height: 600px; }
+		}
+	</style>
+</head>
+<body>
+	<main class="page">
+		<header class="topbar">
+			<div class="brand"><span class="brand-mark">+</span><span>online toolbox</span></div>
+			<div class="status">ready when you are</div>
+		</header>
+
+		<section class="intro">
+			<p class="eyebrow">Small utilities, neatly gathered</p>
+			<h1>Make room for getting things done.</h1>
+			<p class="intro-copy">A growing shelf of simple tools for the moments when a tiny bit of help makes the whole task feel lighter.</p>
+		</section>
+
+		<nav class="tabs" role="tablist" aria-label="Toolbox sections">
+			<button class="tab" id="overview-tab" role="tab" aria-selected="true" aria-controls="overview-panel">Overview</button>
+			<button class="tab" id="calculator-tab" role="tab" aria-selected="false" aria-controls="calculator-panel">Calculator</button>
+		</nav>
+
+		<section class="panel" id="overview-panel" role="tabpanel" aria-labelledby="overview-tab">
+			<div class="tool-grid">
+				<article class="tool-card">
+					<div class="tool-icon">+</div>
+					<h2>Calculator</h2>
+					<p>Quick arithmetic without leaving the page you are working in.</p>
+					<button class="open-tool" data-target="calculator-tab">Open calculator</button>
+				</article>
+				<article class="tool-card">
+					<div class="tool-icon">/</div>
+					<h2>Next tool</h2>
+					<p>A clear spot for the next useful little utility in the collection.</p>
+					<span class="open-tool">Coming soon</span>
+				</article>
+				<article class="tool-card">
+					<div class="tool-icon">*</div>
+					<h2>Next tool</h2>
+					<p>Keep adding tools here as they earn a place in your daily kit.</p>
+					<span class="open-tool">Coming soon</span>
+				</article>
+			</div>
+		</section>
+
+		<section class="panel workspace" id="calculator-panel" role="tabpanel" aria-labelledby="calculator-tab" hidden>
+			<div class="workspace-header">
+				<h2>Calculator</h2>
+				<p>Do the quick maths, then get back to the good stuff.</p>
+			</div>
+			<iframe src="calculator.html" title="Calculator tool"></iframe>
+		</section>
+
+		<footer>Built for the tools you reach for most.</footer>
+	</main>
+
+	<script>
+		const tabs = document.querySelectorAll('[role="tab"]');
+		const panels = document.querySelectorAll('[role="tabpanel"]');
+
+		function activateTab(tabId) {
+			tabs.forEach((tab) => {
+				const active = tab.id === tabId;
+				tab.setAttribute('aria-selected', active);
+				document.getElementById(tab.getAttribute('aria-controls')).hidden = !active;
+			});
+		}
+
+		tabs.forEach((tab) => {
+			tab.addEventListener('click', () => activateTab(tab.id));
+			tab.addEventListener('keydown', (event) => {
+				if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+					const index = Array.from(tabs).indexOf(tab);
+					const nextIndex = event.key === 'ArrowRight' ? (index + 1) % tabs.length : (index - 1 + tabs.length) % tabs.length;
+					tabs[nextIndex].focus();
+					activateTab(tabs[nextIndex].id);
+				}
+			});
+		});
+
+		document.querySelectorAll('[data-target]').forEach((button) => {
+			button.addEventListener('click', () => activateTab(button.dataset.target));
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <style>
+        /* ------------------- CSS STYLING ------------------- */
+
+        body {
+            display: flex;
+            justify-content: center; /* Centers horizontally */
+            align-items: center; /* Centers vertically */
+            min-height: 100vh; /* Ensures the body takes up full screen height */
+            margin: 0;
+            background-color: #f4f7f6; /* Light background */
+        }
+
+        .calculator {
+            width: 320px; /* Fixed width for the device */
+            background-color: #3a3a3a; /* Dark body color */
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+        }
+
+        #display {
+            width: calc(100% - 20px); /* Full width minus padding */
+            height: 60px;
+            background-color: #222; /* Dark display */
+            border: none;
+            padding: 10px;
+            font-size: 3em;
+            text-align: right; /* Numbers align right, like a real calculator */
+            color: #fff;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .buttons {
+            display: grid; /* Use CSS Grid for perfect alignment */
+            grid-template-columns: repeat(4, 1fr); /* Four equal columns */
+            gap: 10px; /* Space between buttons */
+        }
+
+        .btn {
+            padding: 20px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s; /* Smooth hover effect */
+            background-color: #505050;
+            color: white;
+        }
+
+        /* Specific styles for operation buttons */
+        .btn.operator {
+            background-color: #ff9500; /* Orange for operators */
+        }
+
+        .btn.operator:hover, .clear-btn:hover {
+            filter: brightness(1.1); /* Slightly brighten on hover */
+        }
+
+        /* Special styling for the equals button */
+        .btn.equals {
+            background-color: #ff9500; /* Match operator color */
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- ------------------- HTML STRUCTURE (The Body) ------------------- -->
+<div class="calculator">
+    <!-- Display Screen -->
+    <input type="text" id="display" disabled value="0">
+
+    <!-- Button Pad -->
+    <div class="buttons">
+        <!-- First Row -->
+        <button class="btn clear-btn" onclick="clearDisplay()">C</button>
+        <button class="btn operator" onclick="appendToDisplay('/')">/</button>
+        <button class="btn operator" onclick="appendToDisplay('*')">*</button>
+        <button class="btn operator" onclick="appendToDisplay('+')" class="operator">+</button>
+
+        <!-- Second Row -->
+        <button class="btn" onclick="appendToDisplay('7')">7</button>
+        <button class="btn" onclick="appendToDisplay('8')">8</button>
+        <button class="btn" onclick="appendToDisplay('9')">9</button>
+        <!-- The equal button spans two rows for a better layout, but we keep it simple here -->
+
+        <!-- Third Row -->
+        <button class="btn" onclick="appendToDisplay('4')">4</button>
+        <button class="btn" onclick="appendToDisplay('5')">5</button>
+        <button class="btn" onclick="appendToDisplay('6')">6</button>
+
+        <!-- Fourth Row -->
+        <button class="btn" onclick="appendToDisplay('1')">1</button>
+        <button class="btn" onclick="appendToDisplay('2')">2</button>
+        <button class="btn" onclick="appendToDisplay('3')">3</button>
+
+        <!-- Fifth Row -->
+        <button class="btn" onclick="appendToDisplay('0')">0</button>
+        <button class="btn operator" onclick="appendToDisplay('.')">.</button>
+        <!-- The equals button needs to span the last column -->
+        <button class="btn equals" onclick="calculateResult()">=</button>
+    </div>
+</div>
+
+<!-- ------------------- JAVASCRIPT LOGIC (The Brain) ------------------- -->
+<script>
+    const display = document.getElementById('display');
+
+    /**
+     * Appends a value (number or operator) to the current display string.
+     */
+    function appendToDisplay(inputVal) {
+        const currentValue = display.value;
+
+        // If the current value is '0' and they click a number, replace it
+        if (currentValue === '0' && !['+', '-', '*', '/'].includes(inputVal)) {
+            display.value = inputVal;
+        } else {
+             // Append the new input value
+            display.value += inputVal;
+        }
+    }
+
+    /**
+     * Clears the display entirely.
+     */
+    function clearDisplay() {
+        display.value = '0';
+    }
+
+    /**
+     * Simple calculation simulation (Note: for complex math, you'd use eval() or a proper parsing library)
+     * For this simple example, we prompt the user to see the result.
+     */
+    function calculateResult() {
+        try {
+            // Using eval() is the simplest way to execute a math string in JS, 
+            // but use with caution in professional settings!
+            let result = eval(display.value); 
+            
+            // Display the calculated result
+            if (result === undefined || isNaN(result)) {
+                display.value = 'Error';
+            } else {
+                 // Display the result and allow chaining operations on it
+                display.value = result; 
+            }
+
+        } catch (e) {
+            display.value = 'Error';
+        }
+    }
+
+</script>
+
+</body>
+</html>
